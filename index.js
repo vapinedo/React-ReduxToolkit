@@ -1,11 +1,19 @@
 const redux = require('redux')
 
 const CAKE_ORDERED = 'CAKE_ORDERED'
+const CAKE_RESTOCKED = 'CAKE_RESTOCKED'
 
 const cakeOrdered = () => {
     return {
         type: CAKE_ORDERED,
-        quantity: 1 
+        payload: 1 
+    }
+}
+
+const cakeRestocked = (quantity = 1) => {
+    return {
+        type: CAKE_RESTOCKED,
+        payload: quantity
     }
 }
 
@@ -20,6 +28,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 numOfCakes: state.numOfCakes - 1
             }
+        case CAKE_RESTOCKED:
+            return {
+                ...state,
+                numOfCakes: state.numOfCakes + action.payload
+            }
         default: 
             return state
     }
@@ -33,5 +46,6 @@ const unsubscribe = store.subscribe(() => console.log('Update state', store.getS
 store.dispatch(cakeOrdered())
 store.dispatch(cakeOrdered())
 store.dispatch(cakeOrdered())
+store.dispatch(cakeRestocked(3))
 
 unsubscribe()
