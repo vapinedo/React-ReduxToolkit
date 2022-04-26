@@ -72,14 +72,19 @@ const icecreamsReducer = (state = initialIcecreamsState, action) => {
         case ICECREAM_RESTOCKED: 
             return {
                 ...state,
-                numOfIcecreams: state.numOfIcecreams + 1
+                numOfIcecreams: state.numOfIcecreams + action.payload
             }
         default: 
             return state
     }
 }
 
-const store = redux.createStore(reducer)
+const rootReducer = redux.combineReducers({
+    cake: cakeReducer,
+    iceCream: icecreamsReducer
+})
+
+const store = redux.createStore(rootReducer)
 console.log('Initial State', store.getState())
 
 const unsubscribe = store.subscribe(() => console.log('Update state', store.getState()))
